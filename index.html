@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Registro Bagno</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Registro Bagno</h1>
+      <p class="subtitle">
+        Condiviso via codice classe (Google). Clicca su un alunno per registrare un’uscita.
+      </p>
+    </div>
+
+    <div class="actions">
+      <button id="btnUndo" class="secondary" title="Annulla l'ultima uscita registrata da te">Annulla (mio ultimo)</button>
+      <button id="btnExportEvents" class="secondary">Esporta uscite CSV</button>
+      <button id="btnSettings" class="secondary">Impostazioni</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <div class="section-head">
+        <h2 id="classTitle">Classe: —</h2>
+        <div class="badge" id="classCodeBadge">CODICE: —</div>
+      </div>
+
+      <div class="hint">
+        I conteggi mostrano <b>Oggi / Settimana / Mese</b>. “Oggi” si azzera automaticamente a mezzanotte.
+      </div>
+
+      <input id="search" type="search" placeholder="Cerca… (es. Rossi)" />
+      <div id="students" class="students"></div>
+    </section>
+
+    <section class="card">
+      <h2>Riepilogo</h2>
+
+      <div class="summary">
+        <div class="kpi">
+          <div class="kpi-label">Oggi</div>
+          <div id="kpiToday" class="kpi-value">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Questa settimana</div>
+          <div id="kpiWeek" class="kpi-value">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Questo mese</div>
+          <div id="kpiMonth" class="kpi-value">0</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="week">Report settimanale</button>
+        <button class="tab" data-tab="month">Report mensile</button>
+        <button class="tab" data-tab="log">Ultime uscite</button>
+      </div>
+
+      <div id="panelWeek" class="panel"></div>
+      <div id="panelMonth" class="panel hidden"></div>
+      <div id="panelLog" class="panel hidden"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="status">Pronto.</span>
+  </footer>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle">Impostazioni</h3>
+        <button id="btnCloseModal" class="secondary">Chiudi</button>
+      </div>
+
+      <div class="modal-grid">
+        <section class="modal-section">
+          <h4>Profilo</h4>
+          <label class="small" for="teacherName">Nome docente (serve per Undo “mio ultimo”)</label>
+          <input id="teacherName" type="text" placeholder="Es. Prof. Rossi" />
+          <p class="small">Suggerimento: usa lo stesso nome su tutti i tuoi dispositivi.</p>
+
+          <h4 style="margin-top:14px;">Connessione classe</h4>
+          <label class="small" for="classCodeInput">Codice classe</label>
+          <input id="classCodeInput" type="text" placeholder="Es. A7K3Q2" />
+
+          <div class="row">
+            <button id="btnJoinClass" class="secondary">Entra con codice</button>
+          </div>
+
+          <hr class="hr"/>
+
+          <label class="small" for="newClassName">Crea nuova classe (genera codice)</label>
+          <input id="newClassName" type="text" placeholder="Es. 2A" />
+          <div class="row">
+            <button id="btnCreateClass" class="secondary">Crea classe</button>
+          </div>
+
+          <p class="small">
+            Dopo “Crea classe”, condividi il codice con gli altri docenti: vedranno gli stessi report.
+          </p>
+        </section>
+
+        <section class="modal-section">
+          <h4>Alunni (classe collegata)</h4>
+
+          <div class="row">
+            <button id="btnMake25" class="secondary">Crea 25 placeholder</button>
+            <button id="btnClearRoster" class="danger">Svuota elenco</button>
+          </div>
+
+          <label class="small" for="csvFile">Import CSV (nomi in 1ª colonna o colonna “nome/name”)</label>
+          <div class="row">
+            <input id="csvFile" type="file" accept=".csv,text/csv" />
+            <button id="btnImportCsv" class="secondary">Importa CSV</button>
+          </div>
+
+          <label class="small" for="namesArea">Oppure incolla i nomi (uno per riga)</label>
+          <textarea id="namesArea" rows="10" placeholder="Rossi Marco&#10;Bianchi Sara&#10;..."></textarea>
+
+          <div class="row right">
+            <button id="btnSaveRoster" class="secondary">Salva elenco su Google</button>
+            <button id="btnExportRoster" class="secondary">Esporta elenco CSV</button>
+          </div>
+
+          <p class="small">
+            Attenzione: l’elenco viene salvato sul Google Sheet e diventa condiviso per tutti quelli con il codice.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
